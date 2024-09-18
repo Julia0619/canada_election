@@ -1,0 +1,75 @@
+---
+title: "Tutorial 1.2"
+author: "Julia Lee"
+format: html
+---
+
+```{r}
+#### Preamble ####
+# Purpose: Clean and save the raw data 
+# Author: Julia Lee
+# Date: 18 September 2024
+# Prerequisites: Have installed the necessary packages and have ran download_data.R before.
+```
+
+```{r}
+#### Workspace setup ####
+# install.packages("tidyverse")
+# install.packages("janitor")
+
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+raw_elections <- read_csv(
+  file = "canadian_elections.csv",
+  show_col_types = FALSE,
+  )
+```
+
+```{r}
+cleaned_canadian_elections <-
+  clean_names(raw_elections)
+```
+
+```{r}
+cleaned_canadian_elections <- 
+  cleaned_canadian_elections |>
+  select(
+    electoral_district_name_nom_de_circonscription, 
+    elected_candidate_candidat_elu
+  ) |>
+  rename(
+    electoral_district = electoral_district_name_nom_de_circonscription,
+    elected_candidate = elected_candidate_candidat_elu
+  )
+```
+
+```{r}
+cleaned_canadian_elections <-
+  cleaned_canadian_elections |>
+  separate(col = elected_candidate,
+           into = c("Other", "party"),
+           sep = "/") |>
+  select(-Other)
+```
+
+```{r}
+cleaned_canadian_elections <- 
+  cleaned_canadian_elections |>
+  mutate(party = recode(party, "Libéral" = "Liberal",
+         "Conservateur" = "Conservative",
+         "Bloc Québécois" = "Bloc Quebecois",
+         "NPD-Nouveau Parti démocratique" = "New Democratic Party",
+         "Parti Vert" = "Green Party")
+         )
+```
+
+```{r}
+write_csv(
+  x = cleaned_canadian_elections,
+  file = "cleaned_canadian_elections.csv"
+)
+```
+

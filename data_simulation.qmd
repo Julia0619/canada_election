@@ -1,0 +1,43 @@
+---
+title: "Tutorial 1"
+author: "Julia Lee"
+format: html
+---
+
+```{r}
+#### Preamble ####
+# Purpose: Simulate the data from elections.ca regarding the Canadian election
+# Author: Julia Lee
+# Date: 18 September 2024
+# Prerequisites: Have installed the necessary packages
+```
+
+```{r}
+#### Workspace setup ####
+#install.packages("tidyverse")
+#install.packages("janitor")
+
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+# Set seed
+set.seed(646)
+```
+
+```{r}
+simulated_data <-
+  tibble(
+    # Use 1 through to 338 to represent each riding
+    "Riding" = 1:338,
+    # Randomly pick an option, with replacement, 338 times
+    "Party" = sample(
+      x = c("Liberal", "Conservative", "Bloc Québécois", "New Democratic", "Green"),
+      size = 338,
+      replace = TRUE
+    )
+  )
+
+simulated_data
+```

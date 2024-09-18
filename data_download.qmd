@@ -1,0 +1,39 @@
+---
+title: "Tutorial 1.1"
+author: "Julia Lee"
+format: html
+---
+
+```{r}
+#### Preamble ####
+# Purpose: Download and save the data
+# Author: Julia Lee
+# Date: 18 September 2024
+# Prerequisites: Know where to get Canadian election data.
+```
+
+```{r}
+#### Workspace setup ####
+# install.packages("tidyverse")
+# install.packages("janitor")
+
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+# Reading the data
+raw_elections <- read_csv(
+  file = "https://www.elections.ca/res/rep/off/ovr2021app/53/data_donnees/table_tableau11.csv",
+  show_col_types = FALSE,
+  )
+```
+
+```{r}
+# Saving the data 
+write_csv(
+  x = raw_elections,
+  file = "canadian_elections.csv"
+)
+```
+
